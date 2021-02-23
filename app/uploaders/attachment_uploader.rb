@@ -44,5 +44,5 @@ class AttachmentUploader < CarrierWave::Uploader::Base
   # def filename
   #   "something.jpg" if original_filename
   # end
-  process :set_content_type
+  # process :set_content_type
 end

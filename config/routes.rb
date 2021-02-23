@@ -8,12 +8,14 @@ Rails.application.routes.draw do
       root to: 'devise/sessions#new', as: 'unauthenticated_root'
     end
   end
-  concern :attachable do
-    resources :attachments, only: :create
-  end
   
-  resources :posts, concerns: [:attachable]
-  resources :comments, concerns: [:attachable]
+  resources :posts do
+    resources :likes, only: [:create, :destroy]
+    resources :comments, except: [:index]
+  end
+  resources :comments, except: [:index] do
+    resources :likes, only: [:create, :destroy]
+  end
   devise_for :users
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end

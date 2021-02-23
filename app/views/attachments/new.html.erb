@@ -1,9 +1,0 @@
-<%= nested_form_for @post, html: { multipart: true } do |f| %>
-  <p><%= f.link_to_add "Add an attachment", :attachments %></p>
-  
-  <%= f.fields_for :attachments do |attachment_form| %>
-    <%= attachment_form.file_field :attachment %>
-    <%= attachment_form.hidden_field :attachment_cache %>
-    <%= attachment_form.link_to_remove "Remove this attachment" %>
-  <% end %>
-<% end %>

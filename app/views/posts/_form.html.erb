@@ -1,4 +1,4 @@
-<%= form_with(model: post, local: true) do |form| %>
+<%= nested_form_for @post, html: { multipart: true } do |form| %>
   <% if post.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(post.errors.count, "error") %> prohibited this post from being saved:</h2>
@@ -18,20 +18,14 @@
 
   <div class="field">
     <%= form.label :status %>
-    <%= form.select :status, options_for_select(Post.statuses, form.object.status) %>
+    <%= form.select :status, options_for_select(Post.statuses.keys, form.object.status) %>
 
   </div>
 
-  <%= nested_form_for @post, html: { multipart: true } do |f| %>
-  <p><%= f.link_to_add "Add an attachment", :attachments %></p>
-  
-  <%= f.fields_for :attachments do |attachment_form| %>
+  <%= form.fields_for :attachment, @attachment do |attachment_form| %>
     <%= attachment_form.file_field :attachment %>
     <%= attachment_form.hidden_field :attachment_cache %>
-    <%= attachment_form.link_to_remove "Remove this attachment" %>
   <% end %>
-<% end %>
-
 
   <div class="actions">
     <%= form.submit %>
