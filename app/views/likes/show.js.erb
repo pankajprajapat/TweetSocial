@@ -1,0 +1,5 @@
+<% if @act_obj.class.name == 'Post' %>
+  $(".post_like_<%= @act_obj.id %>").html("<%= escape_javascript(render partial: 'posts/post_like', locals: { post: @act_obj } ) %>");
+<% else %>
+  $(".comment_like_<%= @act_obj.id %>").html("<%= escape_javascript(render partial: 'posts/comment_like', locals: { comment: @act_obj } ) %>");
+<% end %>

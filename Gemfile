@@ -56,3 +56,4 @@ gem 'devise'
 gem 'carrierwave'
 gem 'bootstrap-sass'
 gem "nested_form"
+gem 'jquery-rails'

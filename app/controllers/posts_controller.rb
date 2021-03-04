@@ -4,7 +4,11 @@ class PostsController < ApplicationController
 
   # GET /posts or /posts.json
   def index
-    @posts = Post.published
+    @posts = Post.includes(:likes, :attachment, :user, comments: [:user, :likes]).published
+  end
+
+  def user_posts
+    @posts = current_user.posts
   end
 
   # GET /posts/1 or /posts/1.json
@@ -64,7 +68,7 @@ class PostsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_post
-      @post = Post.includes(:likes, comments: :likes).find(params[:id])
+      @post = Post.includes(:likes, :attachment, :user, comments: [:user, :likes]).find(params[:id])
       @attachment = @post.attachment
     end
 

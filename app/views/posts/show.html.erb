@@ -1,10 +1,7 @@
 <%= link_to 'Back', posts_path %>
-<% pre_like = @post.likes.find { |like| like.user_id == current_user.id} %>
-<% if pre_like %>
-  <%= button_to 'Unlike', post_like_path(@post, pre_like), method: :delete %>
-<% else %>
-  <%= button_to 'Like', post_likes_path(@post), method: :post %>
-<% end %>
+<div class="post_like_<%= @post.id %>">
+  <%= render 'posts/post_like', post: @post %>
+</div>
 
 <p>
   <strong>Tweet:</strong>
@@ -20,19 +17,14 @@
   <strong>Attachment:</strong>
   <%= @attachment.try(:attachment) %>
 </p>
-<p style="background-color:tomato;"><%= @post.likes.count %> likes</p>
 
 <% if @post.Published? %>
   <%= render 'comments/form', comment: @comment %>
   <hr>
   <% @comments.each do |comment| %>
-    <% pre_like = comment.likes.find { |like| like.user_id == current_user.id} %>
-    <% if pre_like %>
-      <%= button_to 'Unlike', comment_like_path(comment, pre_like), method: :delete %>
-    <% else %>
-      <%= button_to 'Like', comment_likes_path(comment), method: :post %>
-    <% end %>
-
+    <div class="comment_like_<%= comment.id %>">
+      <%= render 'posts/comment_like', comment: comment %>
+    </div>
     <p>
       <strong>Body:</strong>
       <%= comment.body %>
@@ -47,7 +39,6 @@
       <strong>User:</strong>
       <%= comment.user.email %>
     </p>
-    <p style="background-color:tomato;"><%= comment.likes.count %> likes</p>
     <% if comment.user == current_user %>
       <%= link_to 'Edit', edit_comment_path(comment) %>
       <%= link_to 'Destroy', comment, method: :delete, data: { confirm: 'Are you sure?' } %>

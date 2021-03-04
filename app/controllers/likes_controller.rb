@@ -4,6 +4,7 @@ class LikesController < ApplicationController
   # before_action :find_comment, only:[:comment_like, :comment_dislike]
   
   def create
+    @act_obj = @object
     if already_liked?
       flash[:notice] = "You can't like more than once"
     else
@@ -12,10 +13,14 @@ class LikesController < ApplicationController
     if @object.class.name == 'Comment'
       @object = @object.post
     end
-    redirect_to post_path(@object)
+    respond_to do |format|
+      # format.html { redirect_to post_path(@object) }
+      format.js {render :show }
+    end
   end
 
   def destroy
+    @act_obj = @object
     if !(already_liked?)
       flash[:notice] = "Cannot unlike"
     else
@@ -24,7 +29,10 @@ class LikesController < ApplicationController
     if @object.class.name == 'Comment'
       @object = @object.post
     end
-    redirect_to post_path(@object)
+    respond_to do |format|
+      # format.html { redirect_to post_path(@object) }
+      format.js {render :show }
+    end
   end
   
   private
